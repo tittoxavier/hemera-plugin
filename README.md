@@ -26,5 +26,5 @@ Steps
 	4. Run the command "act --pattern topic:api,cmd:playerInfo,name:m4jes".
 	
 Result
-===================
+=====================
 	Check the result in first tab.  
