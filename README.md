@@ -27,4 +27,4 @@ Steps
 	
 Result
 ===================
-	Check the result in first tab.
+	Check the result in first tab.  
