@@ -15,10 +15,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
- "hemera-joi": "1.x",
+    "hemera-joi": "1.x",
     "hemera-plugin": "0.0.2",
     "nats": "^0.7.20",
-    "nats-hemera": "^1.5.4"
+    "nats-hemera": "^1.5.4",
+    "request": "^2.81.0"
   },
   "peerDependencies": {
     "nats-hemera": "1.x"
