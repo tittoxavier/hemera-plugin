@@ -1,49 +1,40 @@
-'use strict'
+const Hemera 		=	require("nats-hemera")
+const Nats 			= 	require("hemera-testsuite/natsStub")
+const ActStub		= 	require("hemera-testsuite/actStub")
+const Code 			= 	require("code")
+const expect 		= 	Code.expect
+var resultArray		=	{"game":"bf4","plat":"pc","name":"m4jes","tag":"BPt","score":16724643,"timePlayed":1476950};
 
-const Hemera = require('nats-hemera')
-const Code = require('code')
-const Plugin = require('../')
-const HemeraTestsuite = require('hemera-testsuite')
+  it("testPlayernformation", function (done) {
+	describe("Math", function () {
+			const nats 		= 	new Nats()
+			const hemera 	= 	new Hemera(nats, {
+				logLevel	:		 "info"
+			})
+		const actStub		= 	new ActStub(hemera)
 
-// assert library
-const expect = Code.expect
+		hemera.ready(function () {
+		  hemera.add({
+			topic: "api",
+			cmd: "playerInfo"
+		  }, function (args, cb) {
+			this.act({ topic: "api", cmd: "playerInfo"}, function (err, resp) {
+			})
+		  })
 
-// prevent warning message of too much listeners
-process.setMaxListeners(0)
-
-describe('hemera-test', function () {
-  const PORT = 4222
-  const topic = 'test'
-  let server
-
-  // Start up our own nats-server
-  before(function (done) {
-    server = HemeraTestsuite.start_server(PORT, null, done)
-  })
-
-  // Shutdown our server after we are done
-  after(function () {
-    server.kill()
-  })
-
-  it('Should be able to add two numbers', function (done) {
-    const nats = require('nats').connect()
-
-    const hemera = new Hemera(nats, { logLevel: 'info' })
-    hemera.use(Plugin)
-
-    hemera.ready(() => {
-      hemera.act({
-        topic,
-        cmd: 'add',
-        a: 1,
-        b: 2
-      }, (err, resp) => {
-        expect(err).not.to.be.exists()
-        expect(resp).to.be.equals(3)
-
-        hemera.close(done)
-      })
-    })
-  })
+		  // stub act calls
+		  actStub.stub({ topic: "api", cmd: "playerInfo" }, null, resultArray)
+		  
+		  hemera.act({
+				topic: "api",
+				cmd: "playerInfo",
+		   }, function(err, result) {
+				expect(err).to.be.not.exists()
+				expect(result).to.be.equals(resultArray)
+				done()
+		  })
+		})
+	  })
 })
+
+    
